@@ -7,7 +7,7 @@ var cidade = document.querySelector('.estado')
 var estado = document.querySelector('.cidade')
 var logradouro = document.querySelector('.logradouro')
 
-
+// Eventos
 form.onsubmit = function(event) {
   event.preventDefault()
 
