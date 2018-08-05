@@ -7,20 +7,38 @@ var cidade = document.querySelector('.estado')
 var estado = document.querySelector('.cidade')
 var logradouro = document.querySelector('.logradouro')
 
+var storage = JSON.parse(localStorage.getItem('endereco'))
 
+pegarEndereco()
+
+// Eventos
 form.onsubmit = function (event) {
   event.preventDefault()
 
-  var endereco = {
-    bairro: 'Vila Mariana',
-    cidade: 'São Paulo',
-    estado: 'SP',
-    logradouro: 'Av. Lins de Vasconceles'
+  consultarCep(cep.value)
+}
+
+// Funções
+function consultarCep(cep) {
+  var api = fetch('https://viacep.com.br/ws/' + cep + '/json/')
+
+  api
+    .then(function (resposta) { return resposta.json() })
+    .then(function (resultado) {
+      bairro.innerText = 'Rua: ' + resultado.bairro
+      cidade.innerText = 'Cidade: ' + resultado.localidade
+      estado.innerText = 'Estado: ' + resultado.uf
+      logradouro.innerText = 'Logradouro: ' + resultado.logradouro
+
+      localStorage.setItem('endereco', JSON.stringify(resultado))
+    })
+}
+
+function pegarEndereco() {
+  if (storage) {
+    bairro.innerText = 'Rua: ' + storage.bairro
+    cidade.innerText = 'Cidade: ' + storage.localidade
+    estado.innerText = 'Estado: ' + storage.uf 
+    logradouro.innerText = 'Logradoura: ' + storage.logradouro
   }
-
-  bairro.innerText = 'Rua: ' + endereco.bairro
-  cidade.innerText = 'Cidade: ' + endereco.cidade
-  estado.innerText = 'Estado: ' + endereco.estado
-  logradouro.innerText = 'Logradouro: ' + endereco.logradouro
-
 }

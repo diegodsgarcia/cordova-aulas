@@ -1,46 +1,58 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-var app = {
-    // Application Constructor
-    initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-    },
 
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
-    },
+var form = document.querySelector('form')
+var cep = document.querySelector('input')
+var geolocalizacaoButton = document.querySelector('.geolocalizacao')
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+var bairro = document.querySelector('.bairro')
+var cidade = document.querySelector('.estado')
+var estado = document.querySelector('.cidade')
+var logradouro = document.querySelector('.logradouro')
+var latitude = document.querySelector('.latitude')
+var longitude = document.querySelector('.longitude')
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+var storage = JSON.parse(localStorage.getItem('endereco'))
 
-        console.log('Received Event: ' + id);
-    }
-};
+pegarEndereco()
 
-app.initialize();
+// Eventos
+form.onsubmit = function (event) {
+  event.preventDefault()
+  
+  consultarCep(cep.value)
+}
+
+geolocalizacaoButton.onclick = function() {
+  mostrarGeolocalizacao()
+}
+
+// Funções
+function consultarCep(cep) {
+  var api = fetch('https://viacep.com.br/ws/' + cep + '/json/')
+
+  api
+    .then(function (resposta) { return resposta.json() })
+    .then(function (resultado) {
+      bairro.innerText = 'Rua: ' + resultado.bairro
+      cidade.innerText = 'Cidade: ' + resultado.localidade
+      estado.innerText = 'Estado: ' + resultado.uf
+      logradouro.innerText = 'Logradouro: ' + resultado.logradouro
+
+      localStorage.setItem('endereco', JSON.stringify(resultado))
+    })
+}
+
+function pegarEndereco() {
+  if (storage) {
+    bairro.innerText = 'Rua: ' + storage.bairro
+    cidade.innerText = 'Cidade: ' + storage.localidade
+    estado.innerText = 'Estado: ' + storage.uf 
+    logradouro.innerText = 'Logradoura: ' + storage.logradouro
+  }
+}
+
+function mostrarGeolocalizacao() {
+  navigator.geolocation.getCurrentPosition(function(posicao) {
+    latitude.innerText = "Latitude: " + posicao.coords.latitude
+    longitude.innerHTML = "Longitude: " + posicao.coords.longitude
+  })
+}

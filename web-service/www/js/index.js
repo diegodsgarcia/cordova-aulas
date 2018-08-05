@@ -7,21 +7,14 @@ var cidade = document.querySelector('.estado')
 var estado = document.querySelector('.cidade')
 var logradouro = document.querySelector('.logradouro')
 
-
-
+// Eventos
 form.onsubmit = function (event) {
   event.preventDefault()
-
-  var endereco = {
-    bairro: 'Vila Mariana',
-    cidade: 'São Paulo',
-    estado: 'SP',
-    logradouro: 'Av. Lins de Vasconceles'
-  }
 
   consultarCep(cep.value)
 }
 
+// Funções
 function consultarCep(cep) {
   var api = fetch('https://viacep.com.br/ws/' + cep + '/json/')
 
