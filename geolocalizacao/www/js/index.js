@@ -4,8 +4,8 @@ var cep = document.querySelector('input')
 var geolocalizacaoButton = document.querySelector('.geolocalizacao')
 
 var bairro = document.querySelector('.bairro')
-var cidade = document.querySelector('.estado')
-var estado = document.querySelector('.cidade')
+var cidade = document.querySelector('.cidade')
+var estado = document.querySelector('.estado')
 var logradouro = document.querySelector('.logradouro')
 var latitude = document.querySelector('.latitude')
 var longitude = document.querySelector('.longitude')
@@ -43,7 +43,7 @@ function consultarCep(cep) {
 
 function pegarEndereco() {
   if (storage) {
-    bairro.innerText = 'Rua: ' + storage.bairro
+    bairro.innerText = 'Bairro: ' + storage.bairro
     cidade.innerText = 'Cidade: ' + storage.localidade
     estado.innerText = 'Estado: ' + storage.uf 
     logradouro.innerText = 'Logradoura: ' + storage.logradouro
