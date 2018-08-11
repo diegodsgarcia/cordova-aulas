@@ -30,8 +30,8 @@ function consultarCep(cep) {
   var api = fetch('https://viacep.com.br/ws/' + cep + '/json/')
 
   api
-    .then(function (resposta) { return resposta.json() })
-    .then(function (resultado) {
+    .then(function(resposta) { return resposta.json() })
+    .then(function(resultado) {
       bairro.innerText = 'Rua: ' + resultado.bairro
       cidade.innerText = 'Cidade: ' + resultado.localidade
       estado.innerText = 'Estado: ' + resultado.uf
