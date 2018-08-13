@@ -7,7 +7,8 @@
 }
 
 .app {
-  max-width: 1000px;fsd
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 0 20px;
 }
 
